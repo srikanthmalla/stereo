@@ -20,15 +20,23 @@ mapxL, mapyL = cv2.initUndistortRectifyMap(L.camera_matrix, L.dist_coeffs, R1, P
 mapxR, mapyR = cv2.initUndistortRectifyMap(R.camera_matrix, R.dist_coeffs, R2, P2, (w,h), cv2.CV_32FC1)
 dstL = cv2.remap(left_frame, mapxL, mapyL,cv2.INTER_LINEAR)
 dstR = cv2.remap(right_frame, mapxR, mapyR,cv2.INTER_LINEAR)
+print(P1)
+print(P2)
 
-draw_epipolarlines(left_frame,right_frame)
-draw_epipolarlines(dstL,dstR)
+dstL=cv2.resize(dstL,(448, 320), interpolation = cv2.INTER_CUBIC)
+dstR=cv2.resize(dstR,(448, 320), interpolation = cv2.INTER_CUBIC)
+
+cv2.imwrite("left_rectified.png",dstL)
+cv2.imwrite("right_rectified.png",dstR)
+
+# draw_epipolarlines(left_frame,right_frame)
+# draw_epipolarlines(dstL,dstR)
 
 # display the images
-# while (True):	
+while (True):	
     # cv2.imshow('Left Image',img3)
     # cv2.imshow('Right Image',img5)
-    # cv2.imshow('Left rectify',dstL)
-    # cv2.imshow('Right rectify',dstR)
-    # if cv2.waitKey(1) & 0xFF == ord('q'):
-    #     break
+    cv2.imshow('Left rectify',dstL)
+    cv2.imshow('Right rectify',dstR)
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
